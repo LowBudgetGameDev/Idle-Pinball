@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cve4sh0vq318w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oaye0"]
+size = Vector2(1080, 100)
+
+[node name="BallDespawner" type="StaticBody2D"]
+collision_layer = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.08165e-12, 1074)
+shape = SubResource("RectangleShape2D_oaye0")

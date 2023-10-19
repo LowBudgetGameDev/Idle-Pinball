@@ -1,0 +1,520 @@
+[gd_scene load_steps=29 format=3 uid="uid://6jxxr152ump4"]
+
+[ext_resource type="PackedScene" uid="uid://l4im3ond5wq2" path="res://Objects/Barrier.tscn" id="1_1ri8u"]
+[ext_resource type="Texture2D" uid="uid://ctosjq2qcged0" path="res://Textures/Background.png" id="1_wlio8"]
+[ext_resource type="PackedScene" uid="uid://bxhmbwowmysin" path="res://Objects/Peg.tscn" id="2_sgl4e"]
+[ext_resource type="Script" path="res://Scripts/ShopUI.cs" id="2_wvpvc"]
+[ext_resource type="FontFile" uid="uid://xeofbvto6y05" path="res://Fonts/Rubik/static/Rubik-Light.ttf" id="3_ko010"]
+[ext_resource type="FontFile" uid="uid://bwmgmkhgxca4l" path="res://Fonts/Rubik/static/Rubik-Regular.ttf" id="4_jafsb"]
+[ext_resource type="StyleBox" uid="uid://dr58dsydqd0hb" path="res://Scenes/OpenShopButton.tres" id="5_5qxfw"]
+[ext_resource type="Script" path="res://Scripts/ScoreUI.cs" id="5_bvqrg"]
+[ext_resource type="Texture2D" uid="uid://b4j4l5mya42bl" path="res://Textures/ShopBackground.png" id="5_h8m1p"]
+[ext_resource type="Script" path="res://Scripts/ScoreManager.cs" id="5_magyt"]
+[ext_resource type="Script" path="res://Scripts/PegBuilding.cs" id="6_b0lum"]
+[ext_resource type="FontFile" uid="uid://d1f3ha8fsq413" path="res://Fonts/Rubik/static/Rubik-SemiBold.ttf" id="7_o7ofx"]
+[ext_resource type="PackedScene" uid="uid://3m2mesdw0fwf" path="res://Objects/BallSpawner.tscn" id="8_153uy"]
+[ext_resource type="Script" path="res://Scripts/ObjectAmountManager.cs" id="8_b6i0v"]
+[ext_resource type="PackedScene" uid="uid://dts51uhrmyb0v" path="res://Objects/PegBuildSpot.tscn" id="8_q4pmh"]
+[ext_resource type="FontFile" uid="uid://c8d2epli04c5s" path="res://Fonts/Rubik/static/Rubik-Medium.ttf" id="8_xbh5m"]
+[ext_resource type="Texture2D" uid="uid://hnkxn8xub0yw" path="res://Textures/Ball.png" id="9_mt6mj"]
+[ext_resource type="Texture2D" uid="uid://c8dfgid7xqk3j" path="res://Textures/Peg.png" id="10_iw6eg"]
+[ext_resource type="Texture2D" uid="uid://cttnlr81q3n15" path="res://Textures/CloseButton.png" id="11_wbpd3"]
+[ext_resource type="Texture2D" uid="uid://bvghhr3fqg5dy" path="res://Textures/MultiplierIcon.png" id="12_w5nur"]
+[ext_resource type="Script" path="res://Scripts/WinUI.cs" id="14_p3xka"]
+[ext_resource type="FontFile" uid="uid://ti73s5sf8eee" path="res://Fonts/Rubik/static/Rubik-Bold.ttf" id="14_ubypb"]
+[ext_resource type="AudioStream" uid="uid://c6faivfkiaxul" path="res://Sounds/Jump Ship Jam - Main Theme.mp3" id="19_jdrkt"]
+
+[sub_resource type="Animation" id="Animation_evk73"]
+resource_name = "CloseShop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 2.08165e-12), Vector2(1080, 5.20412e-13)]
+}
+
+[sub_resource type="Animation" id="Animation_gxk6x"]
+resource_name = "OpenShop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(1080, 2.08165e-12), Vector2(2.08165e-12, 2.08165e-12)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cma87"]
+_data = {
+"CloseShop": SubResource("Animation_evk73"),
+"OpenShop": SubResource("Animation_gxk6x")
+}
+
+[sub_resource type="Animation" id="Animation_qcdeq"]
+resource_name = "OpenWinUI"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Canvas/WinUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-540, -2880), Vector2(-540, -960)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_efwma"]
+_data = {
+"OpenWinUI": SubResource("Animation_qcdeq")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_left = -540.0
+offset_top = -960.0
+offset_right = 1620.0
+offset_bottom = 2880.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_wlio8")
+stretch_mode = 1
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="ScoreUI" type="Control" parent="Canvas" node_paths=PackedStringArray("scoreText")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -540.0
+offset_top = -960.0
+offset_right = -540.0
+offset_bottom = -960.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_bvqrg")
+scoreText = NodePath("ScoreText")
+
+[node name="ScoreText" type="RichTextLabel" parent="Canvas/ScoreUI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -332.5
+offset_top = -960.0
+offset_right = 332.5
+offset_bottom = -857.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "[center]SCORE: 999999999[/center]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="OpenShopButton" type="Button" parent="Canvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -315.0
+offset_top = -205.0
+offset_right = 84.0002
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_fonts/font = ExtResource("4_jafsb")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("5_5qxfw")
+theme_override_styles/hover = ExtResource("5_5qxfw")
+theme_override_styles/pressed = ExtResource("5_5qxfw")
+text = "SHOP"
+
+[node name="ShopUI" type="Control" parent="Canvas" node_paths=PackedStringArray("buyBallButton", "maxBallAmountText", "ballCostText", "buyPegButton", "maxPegAmountText", "pegCostText", "buyUpgradeButton", "multiplierText", "upgradeCostText", "openShopButton", "closeShopButton", "scoreText", "animationPlayer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1080.0
+offset_right = 0.00134277
+offset_bottom = -1920.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_wvpvc")
+buyBallButton = NodePath("ShopItemContainer/BallShopItem/BuyBallButton")
+maxBallAmountText = NodePath("ShopItemContainer/BallShopItem/MaxAmountText")
+ballCostText = NodePath("ShopItemContainer/BallShopItem/CostText")
+buyPegButton = NodePath("ShopItemContainer/PegShopItem/BuyPegButton")
+maxPegAmountText = NodePath("ShopItemContainer/PegShopItem/MaxAmountText")
+pegCostText = NodePath("ShopItemContainer/PegShopItem/CostText")
+buyUpgradeButton = NodePath("ShopItemContainer/ShopUpgradeItem/BuyUpgradeButton")
+multiplierText = NodePath("ShopItemContainer/ShopUpgradeItem/MultiplierText")
+upgradeCostText = NodePath("ShopItemContainer/ShopUpgradeItem/CostText")
+openShopButton = NodePath("../OpenShopButton")
+closeShopButton = NodePath("CloseShopButton")
+scoreText = NodePath("ScoreText")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="Background" type="NinePatchRect" parent="Canvas/ShopUI"]
+layout_mode = 0
+offset_left = -540.0
+offset_top = -960.0
+offset_right = -108.0
+offset_bottom = -192.0
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("5_h8m1p")
+patch_margin_left = 64
+patch_margin_top = 64
+patch_margin_right = 64
+patch_margin_bottom = 64
+
+[node name="ShopText" type="RichTextLabel" parent="Canvas/ShopUI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -338.0
+offset_top = -960.0
+offset_right = 338.0
+offset_bottom = -618.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("7_o7ofx")
+theme_override_font_sizes/normal_font_size = 250
+text = "SHOP"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ScoreText" type="RichTextLabel" parent="Canvas/ShopUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.5
+offset_top = -650.0
+offset_right = 159.5
+offset_bottom = -581.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_jafsb")
+theme_override_font_sizes/normal_font_size = 75
+bbcode_enabled = true
+text = "[center]$9999999999[/center]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShopItemContainer" type="VBoxContainer" parent="Canvas/ShopUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -500.0
+offset_right = 500.0
+offset_bottom = 700.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="BallShopItem" type="Control" parent="Canvas/ShopUI/ShopItemContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 250)
+layout_mode = 2
+
+[node name="BuyBallButton" type="Button" parent="Canvas/ShopUI/ShopItemContainer/BallShopItem"]
+layout_mode = 2
+offset_right = 1000.0
+offset_bottom = 180.0
+theme_override_fonts/font = ExtResource("8_xbh5m")
+theme_override_font_sizes/font_size = 125
+text = "BUY BALL"
+icon = ExtResource("9_mt6mj")
+expand_icon = true
+
+[node name="Stats Background" type="ColorRect" parent="Canvas/ShopUI/ShopItemContainer/BallShopItem"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_bottom = -0.000244141
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.0980392, 0.0980392, 0.0980392, 0.556863)
+
+[node name="MaxAmountText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/BallShopItem"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -69.0
+offset_right = 315.0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+text = "9999999999"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CostText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/BallShopItem"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -344.0
+offset_top = -69.0
+offset_right = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[right]$9999999999[/right]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="PegShopItem" type="Control" parent="Canvas/ShopUI/ShopItemContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 250)
+layout_mode = 2
+
+[node name="BuyPegButton" type="Button" parent="Canvas/ShopUI/ShopItemContainer/PegShopItem"]
+layout_mode = 2
+offset_right = 1000.0
+offset_bottom = 180.0
+theme_override_fonts/font = ExtResource("8_xbh5m")
+theme_override_font_sizes/font_size = 125
+text = "BUY PEG"
+icon = ExtResource("10_iw6eg")
+expand_icon = true
+
+[node name="Stats Background" type="ColorRect" parent="Canvas/ShopUI/ShopItemContainer/PegShopItem"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_bottom = -0.000244141
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.0980392, 0.0980392, 0.0980392, 0.556863)
+
+[node name="MaxAmountText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/PegShopItem"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -69.0
+offset_right = 315.0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+text = "9999999999"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CostText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/PegShopItem"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -344.0
+offset_top = -69.0
+offset_right = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[right]$9999999999[/right]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShopUpgradeItem" type="Control" parent="Canvas/ShopUI/ShopItemContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 250)
+layout_mode = 2
+
+[node name="BuyUpgradeButton" type="Button" parent="Canvas/ShopUI/ShopItemContainer/ShopUpgradeItem"]
+layout_mode = 2
+offset_right = 1000.0
+offset_bottom = 180.0
+theme_override_fonts/font = ExtResource("8_xbh5m")
+theme_override_font_sizes/font_size = 125
+text = "BUY MULTI"
+icon = ExtResource("12_w5nur")
+expand_icon = true
+
+[node name="Stats Background" type="ColorRect" parent="Canvas/ShopUI/ShopItemContainer/ShopUpgradeItem"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_bottom = -0.000244141
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.0980392, 0.0980392, 0.0980392, 0.556863)
+
+[node name="MultiplierText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/ShopUpgradeItem"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -69.0
+offset_right = 315.0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+text = "9999999999"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CostText" type="RichTextLabel" parent="Canvas/ShopUI/ShopItemContainer/ShopUpgradeItem"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -344.0
+offset_top = -69.0
+offset_right = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_ko010")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[right]$9999999999[/right]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CloseShopButton" type="Button" parent="Canvas/ShopUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 439.0
+offset_top = -960.0
+offset_right = 540.0
+offset_bottom = -851.0
+grow_horizontal = 0
+theme_override_colors/icon_normal_color = Color(0.882353, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0.752941, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(1, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.847059, 0, 0, 1)
+theme_override_font_sizes/font_size = 150
+icon = ExtResource("11_wbpd3")
+flat = true
+expand_icon = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Canvas/ShopUI"]
+libraries = {
+"": SubResource("AnimationLibrary_cma87")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Canvas/ShopUI"]
+
+[node name="WinUI" type="Control" parent="Canvas" node_paths=PackedStringArray("animationPlayer", "closeButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_top = -2880.0
+offset_right = -1620.0
+offset_bottom = -4800.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_p3xka")
+animationPlayer = NodePath("AnimationPlayer")
+closeButton = NodePath("CloseButton")
+
+[node name="Background" type="ColorRect" parent="Canvas/WinUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="WinText" type="RichTextLabel" parent="Canvas/WinUI"]
+layout_mode = 0
+offset_top = 250.0
+offset_right = 1080.0
+offset_bottom = 548.0
+theme_override_colors/default_color = Color(0, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("14_ubypb")
+theme_override_font_sizes/normal_font_size = 125
+bbcode_enabled = true
+text = "[center]You Reached a 
+Million Dollars![/center]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CloseButton" type="Button" parent="Canvas/WinUI"]
+layout_mode = 1
+offset_left = 341.0
+offset_top = 882.0
+offset_right = 740.0
+offset_bottom = 1039.0
+theme_override_fonts/font = ExtResource("4_jafsb")
+theme_override_font_sizes/font_size = 125
+text = "CLOSE"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Canvas/WinUI"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_efwma")
+}
+
+[node name="Barrier" parent="." instance=ExtResource("1_1ri8u")]
+
+[node name="ScoreManager" type="Node2D" parent="."]
+script = ExtResource("5_magyt")
+
+[node name="PegBuilding" type="Node2D" parent="."]
+script = ExtResource("6_b0lum")
+pegPrefab = ExtResource("2_sgl4e")
+pegBuildingSpotPrefab = ExtResource("8_q4pmh")
+
+[node name="BallSpawner" parent="." instance=ExtResource("8_153uy")]
+position = Vector2(2.08165e-12, -960)
+
+[node name="ObjectAmountManager" type="Node2D" parent="."]
+script = ExtResource("8_b6i0v")
+
+[node name="MusicManager" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("19_jdrkt")
+autoplay = true

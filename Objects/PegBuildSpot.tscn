@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dts51uhrmyb0v"]
+
+[ext_resource type="Texture2D" uid="uid://bgd1774r1pq7y" path="res://Textures/green_boxTick.png" id="1_xcfm4"]
+
+[node name="PegBuildSpot" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.0627451, 0.0627451, 0.0627451, 0.501961)
+texture = ExtResource("1_xcfm4")

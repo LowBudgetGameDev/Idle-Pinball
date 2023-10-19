@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxhmbwowmysin"]
+
+[ext_resource type="Texture2D" uid="uid://c8dfgid7xqk3j" path="res://Textures/Peg.png" id="1_kktwl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dx8gl"]
+radius = 18.0
+
+[node name="Peg" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("1_kktwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dx8gl")
